@@ -19,33 +19,44 @@ Iterator<ItemBean> iterator = itemList.iterator(); %>
   </head>
   <body>
     <h1>商品管理</h1>
-    <table>
-      <caption>商品一覧</caption>
-      <tr>
-        <th>ID</th>
-        <th>商品名</th>
-        <th>価格</th>
-        <th> </th>
-      </tr>
-      <% while (iterator.hasNext()) {
-        ItemBean item = iterator.next(); %>
-      <tr>
-        <td><%= item.getId() %></td>
-        <td><%= item.getName() %></td>
-        <td class="price">
+    <section class="left-side">
+      <table>
+        <caption>商品一覧</caption>
+        <tr>
+          <th>ID</th>
+          <th>商品名</th>
+          <th>価格</th>
+          <th> </th>
+        </tr>
+        <% while (iterator.hasNext()) {
+          ItemBean item = iterator.next(); %>
+        <tr>
+          <td><%= item.getId() %></td>
+          <td><%= item.getName() %></td>
+          <td class="price">
             <%= NumberFormatUtility.formatCurrency(item.getPrice())
             %></td>
-        <td><a href="<%=
-                     PropertyLoader.getProperty("url.servlet.ItemEditor")
-                     %>?id=<%= item.getId() %>">編集</a></td>
-      </tr>
+          <td><a href="<%=
+                       PropertyLoader.getProperty("url.servlet.ItemEditor")
+                       %>?id=<%= item.getId() %>">編集</a></td>
+        </tr>
       <% } %>
       <tr>
         <td colspan="4"><a href="<%=
                                  PropertyLoader.getProperty("url.servlet.ItemInsertion")
                                  %>">商品を追加</a></td>
       </tr>
-    </table>
+      </table>
+
+      <ul class="pagenation">
+        <li class="before"><a href="<%=
+                                    PropertyLoader.getProperty("url.servlet.ItemManager")
+                                    %>">前へ</a></li>
+        <li class="after"><a href="<%=
+                                    PropertyLoader.getProperty("url.servlet.ItemManager")
+                                   %>">次へ</a></li>
+      </ul>
+    </section>
 
     <form method="get" action="<%=
                                PropertyLoader.getProperty("url.servlet.ItemSelector")
@@ -82,4 +93,4 @@ Iterator<ItemBean> iterator = itemList.iterator(); %>
   </body>
 </html>
 
-<!-- 修正時刻： Mon Mar 23 07:45:15 2020 -->
+<!-- 修正時刻： Tue Mar 24 08:37:51 2020 -->

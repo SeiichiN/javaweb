@@ -1,6 +1,25 @@
-table {
+.left-side {
   float: left;
   margin-right: 30px;
+}
+
+.pagenation {
+  list-style-type: none;
+  padding: 0;
+  width: 260px;
+  margin: 10px auto 0;
+}
+
+.before {
+  float: left;
+}
+
+.after {
+  float: right;
+}
+
+
+table {
   border-collapse: collapse;
 }
 
@@ -41,4 +60,4 @@ td {
   width: 300px;
 }
 
-/* 修正時刻： Mon Mar 23 04:44:13 2020 */
+/* 修正時刻： Tue Mar 24 08:25:46 2020 */
