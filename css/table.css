@@ -1,0 +1,44 @@
+table {
+  float: left;
+  margin-right: 30px;
+  border-collapse: collapse;
+}
+
+caption {
+  font-weight: bold;
+  color: #336;
+  text-decoration: underline;
+  width: 300px;
+}
+
+th {
+  background-color: #ccc;
+  border: solid 1px #999;
+}
+
+td {
+  padding: 0 10px;
+  border: solid 1px #ccc;
+}
+
+.price {
+  text-align: right;
+}
+
+#id {
+  width: 80px;
+}
+
+#name {
+  width: 160px;
+}
+
+#price {
+  width: 110px;
+}
+
+#error {
+  width: 300px;
+}
+
+/* 修正時刻： Mon Mar 23 04:44:13 2020 */

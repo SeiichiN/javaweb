@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<Context path="/w17exercise" docBase="/home/se-ichi/work/jsp/w17exercise">
+    <Resource auth="Container"
+        name="jdbc/datasource"
+        password="javadude"
+        type="javax.sql.DataSource"
+        url="jdbc:mysql://localhost/test"
+        username="javauser" />
+</Context>
+<!-- This file is set in 
+     /opt/apache-tomcat-9.0.31/conf/Catalina/localhost/ -->
+
+<!-- driverClassName="com.mysql.cj.jdbc.Driver" -->

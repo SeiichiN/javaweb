@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<project name="w17manipulation" default="compile" basedir=".">
+  <target name="compile">
+    <javac srcdir="./src"
+           destdir="./WEB-INF/classes"
+		   encoding="UTF-8"
+           />
+  </target>
+</project>
+
+<!-- 修正時刻： Tue Mar 17 20:18:19 2020 -->
