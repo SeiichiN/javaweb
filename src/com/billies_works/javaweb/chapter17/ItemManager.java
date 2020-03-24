@@ -24,9 +24,18 @@ public class ItemManager extends HttpServlet {
 
         String resultPage = PropertyLoader.getProperty("url.jsp.error");
 
+				String stringPageNo = Encoder.encodeUTF8(request.getParameter("page"));
+				if (stringPageNo != null && stringPageNo.length() != 0) {
+					int pageNo = Integer.parseInt(stringPageNo);
+				}
+				String strigCountPageView = PropertyLoader.getProperty("count.pageView");
+				int countPageView = Integer.parseInt(stringCountPageView);
+			
+			
         try {
             ItemDAO dao = new ItemDAO();
-            List<ItemBean> itemList = dao.getItemListAll();
+            // List<ItemBean> itemList = dao.getItemListAll();
+            List<ItemBean> itemList = dao.getItemListPage(pageNo, countPageView);
             request.setAttribute("itemList", itemList);
             resultPage = PropertyLoader.getProperty("url.jsp.selectItem");
         } catch (NamingException e) {

@@ -8,7 +8,8 @@
          import="com.billies_works.javaweb.chapter17.util.PropertyLoader" %>
 
 <% List<ItemBean> itemList = Cast.castList(request.getAttribute("itemList"));
-Iterator<ItemBean> iterator = itemList.iterator(); %>
+Iterator<ItemBean> iterator = itemList.iterator();
+int pageNo = 0; %>
 
 <!doctype html>
 <html lang="ja">
@@ -51,10 +52,10 @@ Iterator<ItemBean> iterator = itemList.iterator(); %>
       <ul class="pagenation">
         <li class="before"><a href="<%=
                                     PropertyLoader.getProperty("url.servlet.ItemManager")
-                                    %>">前へ</a></li>
+                                    %>?page=<%= pageNo %>">前へ</a></li>
         <li class="after"><a href="<%=
                                     PropertyLoader.getProperty("url.servlet.ItemManager")
-                                   %>">次へ</a></li>
+                                   %>?page=<%= pageNo %>">次へ</a></li>
       </ul>
     </section>
 

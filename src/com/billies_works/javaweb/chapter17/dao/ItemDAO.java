@@ -31,7 +31,9 @@ public class ItemDAO {
     }
 
     // 一覧取得
-    public List<ItemBean> getItemListAll() throws SQLException {
+		// int pageNo -- 現在のページ番号 0, 1, 2...
+		// int countPageView -- 1ページに何件表示するか
+    public List<ItemBean> getItemListPage(int pageNo, int countPageView) throws SQLException {
 
         List<ItemBean> itemList = new ArrayList<ItemBean> ();
         Connection connection = source.getConnection();
