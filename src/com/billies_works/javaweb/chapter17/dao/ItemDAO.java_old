@@ -24,67 +24,28 @@ public class ItemDAO {
     private static final String DELETE = "delete from item where id = ?";
 
     private DataSource source;
-    private int number;
-
-    public int getNumber() throws SQLException {
-        try {
-            number = getItemListNumber();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return this.number;
-    }
 
     public ItemDAO() throws NamingException {
         InitialContext context = new InitialContext();
         source = (DataSource) context.lookup ("java:comp/env/jdbc/datasource");
     }
 
-    public int getItemListNumber() throws SQLException {
-        List<ItemBean> itemList = new ArrayList<ItemBean> ();
-        Connection connection = source.getConnection();
-
-        number = 0;
-        try {
-            PreparedStatement statement = connection.prepareStatement(SELECT);
-            ResultSet result = statement.executeQuery();
-            result.last();
-            number = result.getRow();
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            if (connection != null) {
-                connection.close();
-            }
-        }
-        return number;
-    }
-
     // 一覧取得
-    // int pageNo -- 現在のページ番号 0, 1, 2...
-	// int countPageView -- 1ページに何件表示するか
-    public List<ItemBean> getItemListPage(int pageNo, int countPageView) throws SQLException {
+    public List<ItemBean> getItemListAll() throws SQLException {
 
         List<ItemBean> itemList = new ArrayList<ItemBean> ();
         Connection connection = source.getConnection();
-        int count = 0;
-        int countStart = pageNo * countPageView;
-        int countEnd = countStart + countPageView;
-        
+
         try {
             PreparedStatement statement = connection.prepareStatement(SELECT);
             ResultSet result = statement.executeQuery();
 
             while (result.next()) {
-                if (count >= countStart && count < countEnd) {
-                    ItemBean item = new ItemBean();
-                    item.setId(result.getString("id"));
-                    item.setName(result.getString("name"));
-                    item.setPrice(result.getInt("price"));
-                    itemList.add(item);
-                }
-                count++;
+                ItemBean item = new ItemBean();
+                item.setId(result.getString("id"));
+                item.setName(result.getString("name"));
+                item.setPrice(result.getInt("price"));
+                itemList.add(item);
             }
             statement.close();
 
@@ -231,4 +192,4 @@ public class ItemDAO {
 
 }
 
-// 修正時刻： Wed Mar 25 10:52:19 2020
+// 修正時刻： Wed Mar 25 02:52:00 2020

@@ -13,6 +13,7 @@ import javax.naming.NamingException;
 
 import com.billies_works.javaweb.chapter17.bean.ItemBean;
 import com.billies_works.javaweb.chapter17.dao.ItemDAO;
+import com.billies_works.javaweb.chapter17.util.Encoder;
 import com.billies_works.javaweb.chapter17.util.PropertyLoader;
 
 public class ItemManager extends HttpServlet {
@@ -20,23 +21,35 @@ public class ItemManager extends HttpServlet {
 
     protected void doGet( HttpServletRequest request, HttpServletResponse response )
         throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
 
         String resultPage = PropertyLoader.getProperty("url.jsp.error");
+        int pageNo = 0;
+        boolean isNextPage = false;
+        boolean isPrevPage = false;
+        
+        // page -- 現在何ページめであるかという情報
+        String param = request.getParameter("page");
+        if (param != null && param.length() != 0) {
+            String stringPageNo = Encoder.encodeUTF8(param);
+            pageNo = Integer.parseInt(stringPageNo);
+        }
+        // count.pageView -- 1ページにつき何件表示するか。初期値は10。
+        String stringCountPageView = PropertyLoader.getProperty("count.pageView");
+        int countPageView = Integer.parseInt(stringCountPageView);
 
-				String stringPageNo = Encoder.encodeUTF8(request.getParameter("page"));
-				if (stringPageNo != null && stringPageNo.length() != 0) {
-					int pageNo = Integer.parseInt(stringPageNo);
-				}
-				String strigCountPageView = PropertyLoader.getProperty("count.pageView");
-				int countPageView = Integer.parseInt(stringCountPageView);
-			
+        // check
+        System.out.println("pageNo:" + pageNo);
+        System.out.println("countPageView:" + countPageView);
 			
         try {
             ItemDAO dao = new ItemDAO();
-            // List<ItemBean> itemList = dao.getItemListAll();
             List<ItemBean> itemList = dao.getItemListPage(pageNo, countPageView);
+            isNextPage = isNext(pageNo, countPageView);
+            isPrevPage = isPrev(pageNo, countPageView);
             request.setAttribute("itemList", itemList);
+            request.setAttribute("page", pageNo);
+            request.setAttribute("next", isNextPage);
+            request.setAttribute("prev", isPrevPage);
             resultPage = PropertyLoader.getProperty("url.jsp.selectItem");
         } catch (NamingException e) {
             request.setAttribute("errorMessage", e.getMessage());
@@ -47,6 +60,39 @@ public class ItemManager extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher(resultPage);
         dispatcher.forward(request, response);
     }
+
+    protected boolean isNext(int pageNo, int countPageView) {
+        boolean hantei = false;
+        int nextPageNo = pageNo * countPageView + countPageView;
+        System.out.println("nextPageNo:" + nextPageNo);
+        try {
+            ItemDAO dao = new ItemDAO();
+            System.out.println("Size:" + dao.getNumber());
+            if (dao.getNumber() >= nextPageNo) {
+                hantei = true;
+                System.out.println("OKだよ!");
+            } else {
+                System.out.println("あかんやん!");
+            }
+        } catch (NamingException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            System.out.println("ERRRRRR!");
+            e.printStackTrace();
+        }
+        return hantei;
+    }
+
+    protected boolean isPrev(int pageNo, int countPageView) {
+        boolean hantei = false;
+        int prevPageNo = pageNo * countPageView  - countPageView;
+        if (prevPageNo >= 0) {
+            hantei = true;
+        } else {
+            hantei = false;
+        }
+        return hantei;
+    }
 }
 
-// 修正時刻： Sun Mar 22 08:06:26 2020
+// 修正時刻： Wed Mar 25 11:41:53 2020

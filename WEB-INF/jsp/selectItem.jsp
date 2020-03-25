@@ -9,7 +9,12 @@
 
 <% List<ItemBean> itemList = Cast.castList(request.getAttribute("itemList"));
 Iterator<ItemBean> iterator = itemList.iterator();
-int pageNo = 0; %>
+int pageNo = 0;
+pageNo = Cast.castInt(request.getAttribute("page"));
+boolean isNext = Cast.castBoolean(request.getAttribute("next"));
+boolean isPrev = Cast.castBoolean(request.getAttribute("prev"));
+int nextPage = pageNo + 1;
+int prevPage = pageNo - 1; %>
 
 <!doctype html>
 <html lang="ja">
@@ -50,12 +55,16 @@ int pageNo = 0; %>
       </table>
 
       <ul class="pagenation">
-        <li class="before"><a href="<%=
-                                    PropertyLoader.getProperty("url.servlet.ItemManager")
-                                    %>?page=<%= pageNo %>">前へ</a></li>
-        <li class="after"><a href="<%=
-                                    PropertyLoader.getProperty("url.servlet.ItemManager")
-                                   %>?page=<%= pageNo %>">次へ</a></li>
+        <% if (isPrev) { %> 
+          <li class="before"><a href="<%=
+                                      PropertyLoader.getProperty("url.servlet.ItemManager")
+                                      %>?page=<%= prevPage %>">前へ</a></li>
+        <% } %>
+        <% if (isNext) { %> 
+          <li class="after"><a href="<%=
+                                     PropertyLoader.getProperty("url.servlet.ItemManager")
+                                     %>?page=<%= nextPage %>">次へ</a></li>
+        <% } %>
       </ul>
     </section>
 
@@ -94,4 +103,4 @@ int pageNo = 0; %>
   </body>
 </html>
 
-<!-- 修正時刻： Tue Mar 24 08:37:51 2020 -->
+<!-- 修正時刻： Wed Mar 25 11:44:03 2020 -->
