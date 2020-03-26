@@ -26,18 +26,14 @@ public class ItemDAO {
     private DataSource source;
     private int number;
 
-    public int getNumber() throws SQLException {
-        try {
-            number = getItemListNumber();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return this.number;
-    }
-
-    public ItemDAO() throws NamingException {
+    public ItemDAO() throws NamingException, SQLException {
         InitialContext context = new InitialContext();
         source = (DataSource) context.lookup ("java:comp/env/jdbc/datasource");
+        number = getItemListNumber();
+    }
+
+    public int getNumber() {
+        return this.number;
     }
 
     public int getItemListNumber() throws SQLException {
@@ -231,4 +227,4 @@ public class ItemDAO {
 
 }
 
-// 修正時刻： Wed Mar 25 10:52:19 2020
+// 修正時刻： Fri Mar 27 08:19:59 2020

@@ -10,9 +10,17 @@
 <% List<ItemBean> itemList = Cast.castList(request.getAttribute("itemList"));
 Iterator<ItemBean> iterator = itemList.iterator();
 int pageNo = 0;
-pageNo = Cast.castInt(request.getAttribute("page"));
-boolean isNext = Cast.castBoolean(request.getAttribute("next"));
-boolean isPrev = Cast.castBoolean(request.getAttribute("prev"));
+boolean isNext = false;
+boolean isPrev = false;
+if (request.getAttribute("page") != null) {
+  pageNo = Cast.castInt(request.getAttribute("page"));
+}
+if (request.getAttribute("next") != null ) {
+  isNext = Cast.castBoolean(request.getAttribute("next"));
+}
+if (request.getAttribute("prev") != null ) {
+  isPrev = Cast.castBoolean(request.getAttribute("prev"));
+}
 int nextPage = pageNo + 1;
 int prevPage = pageNo - 1; %>
 
@@ -103,4 +111,4 @@ int prevPage = pageNo - 1; %>
   </body>
 </html>
 
-<!-- 修正時刻： Wed Mar 25 11:44:03 2020 -->
+<!-- 修正時刻： Fri Mar 27 08:42:13 2020 -->

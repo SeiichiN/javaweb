@@ -43,10 +43,15 @@ public class ItemManager extends HttpServlet {
 			
         try {
             ItemDAO dao = new ItemDAO();
+            // 10件分あるいはそれ以下の次のデータを取得する
             List<ItemBean> itemList = dao.getItemListPage(pageNo, countPageView);
-            isNextPage = isNext(pageNo, countPageView);
+            // isNextPage -- 次のページがあれば、true
+            isNextPage = isNext(dao, pageNo, countPageView);
+            // isPrevpage -- 前のページがあれば、true
             isPrevPage = isPrev(pageNo, countPageView);
+            // 次のデータ
             request.setAttribute("itemList", itemList);
+            // 現在のページ番号
             request.setAttribute("page", pageNo);
             request.setAttribute("next", isNextPage);
             request.setAttribute("prev", isPrevPage);
@@ -61,12 +66,11 @@ public class ItemManager extends HttpServlet {
         dispatcher.forward(request, response);
     }
 
-    protected boolean isNext(int pageNo, int countPageView) {
+    protected boolean isNext(ItemDAO dao, int pageNo, int countPageView) {
         boolean hantei = false;
         int nextPageNo = pageNo * countPageView + countPageView;
         System.out.println("nextPageNo:" + nextPageNo);
-        try {
-            ItemDAO dao = new ItemDAO();
+        //        try {
             System.out.println("Size:" + dao.getNumber());
             if (dao.getNumber() >= nextPageNo) {
                 hantei = true;
@@ -74,12 +78,12 @@ public class ItemManager extends HttpServlet {
             } else {
                 System.out.println("あかんやん!");
             }
-        } catch (NamingException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            System.out.println("ERRRRRR!");
-            e.printStackTrace();
-        }
+        // } catch (NamingException e) {
+        //     e.printStackTrace();
+        // } catch (SQLException e) {
+        //     System.out.println("ERRRRRR!");
+        //     e.printStackTrace();
+        // }
         return hantei;
     }
 
@@ -95,4 +99,4 @@ public class ItemManager extends HttpServlet {
     }
 }
 
-// 修正時刻： Wed Mar 25 11:41:53 2020
+// 修正時刻： Fri Mar 27 08:18:52 2020
